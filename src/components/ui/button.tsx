@@ -1,94 +1,81 @@
-import * as React from "react";
-import { Pressable, Text, View, PressableProps } from "react-native";
-import { cn } from "../../lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
+import { type VariantProps, cva } from 'class-variance-authority';
+import { Text, TouchableOpacity } from 'react-native';
+
+import { cn } from '../../lib/utils';
 
 const buttonVariants = cva(
-    "flex-row items-center justify-center gap-2 rounded-md",
+    'flex flex-row items-center justify-center rounded-md',
     {
         variants: {
             variant: {
-                default: "bg-primary",
-                destructive: "bg-destructive",
-                outline: "border border-input bg-background",
-                secondary: "bg-secondary",
-                ghost: "",
-                link: "",
+                default: 'bg-primary',
+                secondary: 'bg-secondary',
+                destructive: 'bg-destructive',
+                ghost: 'bg-slate-700',
+                link: 'text-primary underline-offset-4',
             },
             size: {
-                default: "px-4 py-2",
-                sm: "rounded-md px-3 py-1",
-                lg: "rounded-md px-8 py-3",
-                icon: "h-10 w-10",
+                default: 'h-10 px-4',
+                sm: 'h-8 px-2',
+                lg: 'h-12 px-8',
             },
         },
         defaultVariants: {
-            variant: "default",
-            size: "default",
+            variant: 'default',
+            size: 'default',
         },
     }
 );
 
-const buttonTextVariants = cva(
-    "text-sm font-medium",
-    {
-        variants: {
-            variant: {
-                default: "text-primary-foreground",
-                destructive: "text-destructive-foreground",
-                outline: "text-foreground",
-                secondary: "text-secondary-foreground",
-                ghost: "text-foreground",
-                link: "text-primary underline",
-            },
+const buttonTextVariants = cva('text-center font-medium', {
+    variants: {
+        variant: {
+            default: 'text-primary-foreground',
+            secondary: 'text-secondary-foreground',
+            destructive: 'text-destructive-foreground',
+            ghost: 'text-primary-foreground',
+            link: 'text-primary-foreground underline',
         },
-        defaultVariants: {
-            variant: "default",
+        size: {
+            default: 'text-base',
+            sm: 'text-sm',
+            lg: 'text-xl',
         },
-    }
-);
+    },
+    defaultVariants: {
+        variant: 'default',
+        size: 'default',
+    },
+});
 
-export interface ButtonProps
-    extends PressableProps,
+interface ButtonProps
+    extends React.ComponentPropsWithoutRef<typeof TouchableOpacity>,
     VariantProps<typeof buttonVariants> {
-    children?: React.ReactNode;
+    label: string;
+    labelClasses?: string;
 }
-
-const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
-    ({ className, variant, size, children, ...props }, ref) => {
-        return (
-            <Pressable
-                ref={ref}
-                className={cn(buttonVariants({ variant, size, className }))}
-                {...props}
+function Button({
+    label,
+    labelClasses,
+    className,
+    variant,
+    size,
+    ...props
+}: ButtonProps) {
+    return (
+        <TouchableOpacity
+            className={cn(buttonVariants({ variant, size, className }))}
+            {...props}
+        >
+            <Text
+                className={cn(
+                    buttonTextVariants({ variant, size, className: labelClasses })
+                )}
             >
-                {({ pressed }) => {
-                    const pressedClass = pressed ?
-                        variant === "default" ? "bg-primary/90" :
-                            variant === "destructive" ? "bg-destructive/90" :
-                                variant === "secondary" ? "bg-secondary/80" :
-                                    variant === "outline" ? "bg-accent" :
-                                        variant === "ghost" ? "bg-accent" : "" : "";
-
-                    return typeof children === "string" ? (
-                        <Text
-                            className={cn(
-                                buttonTextVariants({ variant }),
-                                variant === "outline" && pressed ? "text-accent-foreground" : "",
-                                variant === "ghost" && pressed ? "text-accent-foreground" : ""
-                            )}
-                        >
-                            {children}
-                        </Text>
-                    ) : (
-                        <View className={cn(pressedClass)}>{children}</View>
-                    );
-                }}
-            </Pressable>
-        );
-    }
-);
-
-Button.displayName = "Button";
+                {label}
+            </Text>
+        </TouchableOpacity>
+    );
+}
 
 export { Button, buttonVariants, buttonTextVariants };
