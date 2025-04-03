@@ -8,7 +8,7 @@ interface AuthState {
     token: string | null
     isAuthenticated: boolean
     loading: boolean
-    error: string | null
+    error?: string | null
 }
 
 const initialState: AuthState = {
@@ -57,7 +57,7 @@ export const loginUser = createAsyncThunk(
                 const authData = {
                     employeeCode: '12345',
                     employeeName: 'Test User',
-                    token: 'mock_token',
+                    token: '234234234234dfsadfd',
                 }
                 await EncryptedStorage.setItem(
                     'auth_data',
@@ -77,33 +77,32 @@ export const loginUser = createAsyncThunk(
 )
 
 // Async Thunk for Checking Authentication Status
+// src/redux/slices/authSlice.ts
 export const checkAuthStatus = createAsyncThunk(
     'auth/checkStatus',
     async (_, { rejectWithValue }) => {
         try {
+            // Simulate stored data retrieval
             const storedData = await EncryptedStorage.getItem('auth_data')
-            if (!storedData) return rejectWithValue('No stored credentials')
 
-            const authData = JSON.parse(storedData)
-
-            if (!authData.token) {
-                return rejectWithValue('Token missing')
-            }
-
-            return {
-                ...authData,
-                isAuthenticated: true,
+            if (storedData) {
+                const authData = JSON.parse(storedData)
+                return {
+                    ...authData,
+                    isAuthenticated: true,
+                }
+            } else {
+                return rejectWithValue('No stored credentials')
             }
         } catch (error) {
             return rejectWithValue(
                 error instanceof Error
                     ? error.message
-                    : 'Error loading credentials'
+                    : 'Error loading credentials simulation'
             )
         }
     }
 )
-
 // Async Thunk for Logging Out
 export const logoutUser = createAsyncThunk(
     'auth/logout',
@@ -131,7 +130,14 @@ const authSlice = createSlice({
             })
             .addCase(
                 loginUser.fulfilled,
-                (state, action: PayloadAction<AuthState>) => {
+                (
+                    state,
+                    action: PayloadAction<{
+                        employeeCode: string
+                        employeeName: string
+                        token: string
+                    }>
+                ) => {
                     state.loading = false
                     state.employeeCode = action.payload.employeeCode
                     state.employeeName = action.payload.employeeName
