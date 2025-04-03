@@ -1,0 +1,8 @@
+# .prettierignore
+node_modules/
+*.json
+*.lock
+*.md
+*.svg
+
+
