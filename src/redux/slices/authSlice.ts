@@ -110,7 +110,8 @@ export const logoutUser = createAsyncThunk(
     'auth/logout',
     async (_, { rejectWithValue }) => {
         try {
-            await EncryptedStorage.removeItem('auth_data')
+            const res = await EncryptedStorage.removeItem('auth_data')
+            console.log(`The value of res is ${res}`)
             return true
         } catch (error) {
             return rejectWithValue(

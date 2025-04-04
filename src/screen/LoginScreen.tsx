@@ -32,7 +32,7 @@ export default function LoginScreen() {
 
     const navigation = useNavigation<ProfileScreenNavigationProp>()
     return (
-        <SafeAreaView className="flex-1 h-full bg-default">
+        <SafeAreaView className="flex-1 h-full bg-primary-light">
             <View className="flex-1 px-6 justify-between">
                 {/* Logo Section */}
                 <View className="items-center mt-12 justify-center">

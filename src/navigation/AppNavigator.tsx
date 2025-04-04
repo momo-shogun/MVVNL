@@ -10,7 +10,6 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { useAppDispatch, useAppSelector } from '../redux/types'
 import { useEffect } from 'react'
 import { checkAuthStatus } from '../redux/slices/authSlice'
-import Card from '../components/ui/Card'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '../components/shared/Header'
 

@@ -24,7 +24,7 @@ const Button = React.forwardRef<View, ButtonProps>(
             outline:
                 'border border-gray-300 bg-white text-gray-800 hover:bg-gray-100',
             secondary: 'bg-gray-300 text-black hover:bg-gray-200',
-            ghost: 'text-blue-500 hover:bg-blue-100',
+            ghost: 'text-blue-500 hover:bg-blue-100 flex-row items-center justify-center ',
             link: 'text-blue-500 underline hover:bg-blue-100',
         }
 
@@ -33,7 +33,7 @@ const Button = React.forwardRef<View, ButtonProps>(
             sm: 'h-9 rounded-md px-3',
             xs: 'h-6 rounded-md px-2 text-xs',
             lg: 'h-11 rounded-md px-8',
-            icon: 'h-10 w-10',
+            icon: 'h-10 w-10 ',
         }
 
         const buttonClass = `${variantClasses[variant]} ${sizeClasses[size]} rounded-md`

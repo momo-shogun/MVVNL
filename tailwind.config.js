@@ -13,7 +13,6 @@ module.exports = {
                 primary: {
                     DEFAULT: '#1E90FF', // Deep Blue (Main Brand Color)
                     light: '#FFFFFF', // White text on primary background
-                    light: '#64B5F6', // Lighter variation
                     dark: '#1976D2', // Darker variation
                     muted: '#86868E',
                 },
