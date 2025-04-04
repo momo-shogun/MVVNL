@@ -87,9 +87,11 @@ export const checkAuthStatus = createAsyncThunk(
 
             if (storedData) {
                 const authData = JSON.parse(storedData)
+                console.log(storedData)
+
                 return {
                     ...authData,
-                    isAuthenticated: true,
+                    isAuthenticated: false,
                 }
             } else {
                 return rejectWithValue('No stored credentials')

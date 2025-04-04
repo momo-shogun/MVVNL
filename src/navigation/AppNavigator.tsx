@@ -3,20 +3,22 @@ import DashboardScreen from '../screen/DashboardScreen'
 import PunchScreen from '../screen/PunchScreen'
 import SearchScreen from '../screen/SearchScreen'
 import RegistrationScreen from '../screen/RegistrationScreen'
-import { Image } from 'react-native'
+import { Image, Text } from 'react-native'
 import loginScreen from '../screen/LoginScreen'
 import LoginScreen from '../screen/LoginScreen'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { useAppDispatch, useAppSelector } from '../redux/types'
 import { useEffect } from 'react'
 import { checkAuthStatus } from '../redux/slices/authSlice'
+import Card from '../components/ui/Card'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import Header from '../components/shared/Header'
 
 type RootStackParamList = {
     Dashboard: undefined
     Punch: undefined
     Search: undefined
     Registration: undefined
-    Login: undefined
 }
 
 export type ProfileScreenNavigationProp = BottomTabNavigationProp<
@@ -34,10 +36,6 @@ export type SearchScreenNavigationProp = BottomTabNavigationProp<
 export type RegistrationScreenNavigationProp = BottomTabNavigationProp<
     RootStackParamList,
     'Registration'
->
-export type LoginScreenNavigationProp = BottomTabNavigationProp<
-    RootStackParamList,
-    'Login'
 >
 
 const Tab = createBottomTabNavigator<RootStackParamList>()
@@ -66,38 +64,25 @@ function AppNavigator() {
         dispatch(checkAuthStatus())
     }, [])
 
+    if (!isAuthenticated) {
+        return <LoginScreen />
+    }
     return (
         <Tab.Navigator>
-            {isAuthenticated ? (
-                <Tab.Screen
-                    name="Login"
-                    component={LoginScreen}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <TabIcon
-                                color={color}
-                                size={size}
-                                path={require('../assets/dashboard.png')}
-                            />
-                        ),
-                        headerShown: false,
-                    }}
-                />
-            ) : (
-                <Tab.Screen
-                    name="Dashboard"
-                    component={DashboardScreen}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <TabIcon
-                                color={color}
-                                size={size}
-                                path={require('../assets/dashboard.png')}
-                            />
-                        ),
-                    }}
-                />
-            )}
+            <Tab.Screen
+                name="Dashboard"
+                component={DashboardScreen}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <TabIcon
+                            color={color}
+                            size={size}
+                            path={require('../assets/dashboard.png')}
+                        />
+                    ),
+                    header: () => <Header />,
+                }}
+            />
             <Tab.Screen
                 name="Punch"
                 component={PunchScreen}
