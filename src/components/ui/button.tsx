@@ -9,13 +9,20 @@ import {
 // Button Props definition
 interface ButtonProps extends TouchableOpacityProps {
     variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost'
-    size?: 'default' | 'sm' | 'xs' | 'lg' | 'icon'
+    size?: 'default' | 'sm' | 'xs' | 'lg' | 'xl' | 'icon'
 }
 
 // Button Component
 const Button = React.forwardRef<View, ButtonProps>(
     (
-        { variant = 'default', size = 'default', style, children, ...props },
+        {
+            variant = 'default',
+            size = 'default',
+            style,
+            children,
+            className,
+            ...props
+        },
         ref
     ) => {
         const variantClasses = {
@@ -30,26 +37,21 @@ const Button = React.forwardRef<View, ButtonProps>(
 
         const sizeClasses = {
             default: 'h-10 px-4 py-2',
-            sm: 'h-9 rounded-md px-3',
-            xs: 'h-6 rounded-md px-2 text-xs',
-            lg: 'h-11 rounded-md px-8',
+            sm: 'h-9  px-3',
+            xs: 'h-6  px-2 text-xs',
+            lg: 'h-11  px-8',
+            xl: 'py-4 px-12',
             icon: 'h-10 w-10 ',
         }
 
-        const buttonClass = `${variantClasses[variant]} ${sizeClasses[size]} rounded-md`
+        const buttonClass = `${variantClasses[variant]} ${sizeClasses[size]} ${
+            className ? className : ''
+        }`
 
         return (
             <View ref={ref}>
-                <TouchableOpacity
-                    {...props}
-                    className={buttonClass} // NativeWind className applied here
-                >
-                    <Text
-                        style={{ color: 'white', textAlign: 'center' }}
-                        className="text-white"
-                    >
-                        {children}
-                    </Text>
+                <TouchableOpacity {...props} className={buttonClass}>
+                    {children}
                 </TouchableOpacity>
             </View>
         )
