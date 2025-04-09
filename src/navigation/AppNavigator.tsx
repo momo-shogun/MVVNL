@@ -12,12 +12,14 @@ import { useEffect } from 'react'
 import { checkAuthStatus } from '../redux/slices/authSlice'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '../components/shared/Header'
+import CameraScreen from '../screen/CameraScreen'
 
 type RootStackParamList = {
     Dashboard: undefined
     Punch: undefined
     Search: undefined
     Registration: undefined
+    CameraScreen: undefined
 }
 
 export type ProfileScreenNavigationProp = BottomTabNavigationProp<
@@ -71,6 +73,20 @@ function AppNavigator() {
             <Tab.Screen
                 name="Dashboard"
                 component={DashboardScreen}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <TabIcon
+                            color={color}
+                            size={size}
+                            path={require('../assets/dashboard.png')}
+                        />
+                    ),
+                    header: () => <Header />,
+                }}
+            />
+            <Tab.Screen
+                name="CameraScreen"
+                component={CameraScreen}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <TabIcon

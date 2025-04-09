@@ -7,16 +7,12 @@ import {
     Alert,
     Platform,
     PermissionsAndroid,
-    TouchableOpacity,
 } from 'react-native'
 import * as MapLibreGL from '@maplibre/maplibre-react-native'
 import { request, PERMISSIONS, RESULTS } from 'react-native-permissions'
 import InsideClockInArea from '../components/InsideClockInArea'
 import OutsideClockInArea from '../components/OutsideClockInArea'
 import { Button } from '../components/ui/Button'
-
-// No Mapbox token needed
-MapLibreGL.setAccessToken(null)
 
 const clockInCenter: [number, number] = [81.01536289492266, 26.870549056165867] // [lng, lat]
 
