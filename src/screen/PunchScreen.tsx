@@ -7,11 +7,13 @@ import {
     Alert,
     Platform,
     PermissionsAndroid,
+    TouchableOpacity,
 } from 'react-native'
 import * as MapLibreGL from '@maplibre/maplibre-react-native'
 import { request, PERMISSIONS, RESULTS } from 'react-native-permissions'
 import InsideClockInArea from '../components/InsideClockInArea'
 import OutsideClockInArea from '../components/OutsideClockInArea'
+import { Button } from '../components/ui/Button'
 
 // No Mapbox token needed
 MapLibreGL.setAccessToken(null)
@@ -81,8 +83,8 @@ const PunchScreen = () => {
         }) <= radiusMeters
 
     return (
-        <View style={styles.container}>
-            <MapLibreGL.MapView style={styles.map}>
+        <View className="flex-1">
+            <MapLibreGL.MapView style={{ flex: 1 }}>
                 <MapLibreGL.Camera
                     ref={cameraRef}
                     zoomLevel={15}
@@ -169,35 +171,78 @@ const PunchScreen = () => {
                     />
                 </MapLibreGL.PointAnnotation>
             </MapLibreGL.MapView>
-
-            {/* Info Box */}
-            {userLocation ? (
-                isInArea ? (
-                    <InsideClockInArea></InsideClockInArea>
+            <View className="mx-4 mt-6">
+                {/* Info Box */}
+                {userLocation ? (
+                    isInArea ? (
+                        <InsideClockInArea></InsideClockInArea>
+                    ) : (
+                        <OutsideClockInArea></OutsideClockInArea>
+                    )
                 ) : (
-                    <OutsideClockInArea></OutsideClockInArea>
-                )
-            ) : (
-                '📍 Getting your location...'
-            )}
+                    '📍 Getting your location...'
+                )}
+
+                <Text className="text-gray-500 font-medium mb-2">
+                    MY PROFILE
+                </Text>
+                <View className="flex-row items-center">
+                    {/* <Image
+                        source={{ uri: '/placeholder.svg?height=50&width=50' }}
+                        className="w-12 h-12 rounded-full bg-purple-200"
+                    /> */}
+                    <View className="ml-3">
+                        <View className="flex-row items-center">
+                            <Text className="font-bold text-base">
+                                Tonald Drump
+                            </Text>
+                            <View className="ml-1 bg-blue-500 rounded-full p-0.5">
+                                {/* <CheckCircle
+                                    stroke="#fff"
+                                    width={14}
+                                    height={14}
+                                /> */}
+                            </View>
+                        </View>
+                        <Text className="text-gray-500 text-xs">
+                            2 September 2024
+                        </Text>
+                        <Text className="text-gray-500 text-xs">
+                            Lat 45.8334 Long 97987.576
+                        </Text>
+                    </View>
+                </View>
+            </View>
+
+            {/* Schedule Section */}
+            <View className="mx-4 mt-6">
+                <Text className="text-gray-500 font-medium mb-2">SCHEDULE</Text>
+                <View className="flex-row justify-between">
+                    <View className="bg-gray-100 rounded-lg p-3 w-[48%]">
+                        <Text className="text-gray-500 text-xs mb-1">
+                            CLOCK IN
+                        </Text>
+                        <Text className="text-xl font-bold">09:00</Text>
+                    </View>
+                    <View className="bg-gray-100 rounded-lg p-3 w-[48%] flex-col items-end">
+                        <Text className="text-gray-500 text-xs mb-1">
+                            CLOCK OUT
+                        </Text>
+                        <Text className="text-xl font-bold">05:00</Text>
+                    </View>
+                </View>
+            </View>
+
+            {/* Clock In Button */}
+            <View className="absolute bottom-3 left-0 right-0 items-center">
+                <Button size="xl" className="bg-secondary-dark rounded-full">
+                    <Text className="text-white font-bold text-lg">
+                        Clock In
+                    </Text>
+                </Button>
+            </View>
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: { flex: 1 },
-    map: { flex: 1 },
-    infoBox: {
-        position: 'absolute',
-        bottom: 30,
-        left: 20,
-        right: 20,
-        backgroundColor: 'white',
-        padding: 15,
-        borderRadius: 10,
-        elevation: 5,
-    },
-    infoText: { fontSize: 16, textAlign: 'center' },
-})
 
 export default PunchScreen
